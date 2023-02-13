@@ -39,14 +39,23 @@ map("world",add=T)
 
 
 #diagnostic plot
-station <- 100
-rhosample <- tseriesc.out$rhosample[,station]
 n <- length(rhosample)
-par(mfrow=c(2,2))
-plot(rhosample,type = "l",main = "Trace plot of rho",xlab = "Iteration number",ylab = "Simulated value")
-hist(rhosample,main = "Hist. of rho",xlab = "Simulated values")
-plot(1:n,cumsum(rhosample)/1:n,type = "l",main = "Ergodic mean of rho",xlab = "Iteration number",ylab = "")
+x <- 30:300
+x <- x[which(x %% 2 == 0)]
+x <- x[-1]
+par(mfrow=c(2,1))
+station <- 112
+rhosample <- tseriesc.out$rhosample[,station]
+plot(x,cumsum(rhosample)/1:n,type = "l",main = "Ergodic mean of rho ",xlab = "Iteration number",ylab = "",ylim=c(0.55,0.85))
 acf(rhosample, main='Autocorrelation of rho')
+gnstar[2]
+par(mfrow=c(2,1))
+station <- 102
+rhosample <- tseriesc.out$rhosample[,station]
+plot(x,cumsum(rhosample)/1:n,type = "l",main = "Ergodic mean of rho",xlab = "Iteration number",ylab = "",ylim=c(0.55,0.85))
+acf(rhosample, main='Autocorrelation of rho')
+gnstar[4]
+
 
 #similarity matrix
 simm <- comp.psm(tseriesc.out$memorygn)
