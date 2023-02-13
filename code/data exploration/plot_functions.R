@@ -24,7 +24,7 @@ day_above_limit <- function(year){
 
 matplot1 <- function(){
   poll <- loadData(2019)
-  set.seed(5) #risetta il seed ogni volta che riesegui! (lascia 5)
+  set.seed(5)
   rand_st <- sample(1:dim(poll)[2], 10)
   days= seq(as.Date("2019-01-01"), as.Date("2019-12-31"), by="days")
   matplot(days,poll[,rand_st],type='l',xlab='Time',ylab='PM10 (µg/m^3)', main="Timeseries of 10 stations (2019)")
@@ -61,21 +61,21 @@ arima_model <- function(){
   pollutant <- read.csv('code/data/timeSeriesData.csv')
   #arima
   rho <- c()
-  eps <- c()
+  sigma <- c()
   for(r in 1:dim(pollutant)[2]){
     a = arima(as.numeric(pollutant[,r]), order=c(1,0,0))
     rho[r] = as.numeric(a$coef[1])
-    eps[r] = sqrt(as.numeric(a$sigma2))
+    sigma[r] = sqrt(as.numeric(a$sigma2))
     
   }
-  return(list(rho=rho,eps=eps))
+  return(list(rho=rho,sigma=sigma))
 }
 
 
 plot_rho <- function(rho){
   stat_inf <- read.csv('code/data/stationsInfo.csv')
-  eps <- rep(NaN,length(rho))
-  plotData <- data.frame(site=stat_inf$site,rho=rho,eps=eps,
+  sigma <- rep(NaN,length(rho))
+  plotData <- data.frame(site=stat_inf$site,rho=rho,sigma=sigma,
                          latitude=stat_inf$latitude,longitude=stat_inf$longitude)
   
   #plot on the map
@@ -97,12 +97,4 @@ plot_rho <- function(rho){
     )%>% addLegend('topright',
                    pal = pal,
                    values = plotData$rho)
-  
-}
-
-hist_rho <- function(rho){
-  rho <- arimaModel$rho
-  hist(rho, breaks = 25,main="Distribution of rho's")
-  
-  
 }
