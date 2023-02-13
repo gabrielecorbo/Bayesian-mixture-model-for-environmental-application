@@ -1,0 +1,13 @@
+---
+title: "Bayesian mixture model for environmental application"
+author: "P. Bogani, P. Botta, S. Caresana, R. Carrara, G. Corbo, L. Mainini"
+date: "Data exploration"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+source("code/include_all.R")
+knitr::opts_chunk$set(echo = TRUE)
+```
