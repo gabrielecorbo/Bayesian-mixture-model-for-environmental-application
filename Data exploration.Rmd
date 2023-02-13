@@ -37,9 +37,9 @@ day_above_limit <- function(year){
 day_above_limit(2019)
 ```
 
-commento su questo plot
+77 stations out of 162 overcame the limit, which is fixed at 35 days per year. In particular, some of them reached the maximum concentration per day for 80 days. 
 
-Then we proceeded analizing the PM10 concentration of 10 station just to have an idea of the level and seasonality of the time series.
+Then we proceeded analizing the PM10 concentration of 10 stations just to have an idea of the level and seasonality of the time series.
 
 ```{r, eval=F, echo=T}
 matplot1 <- function(){
@@ -91,7 +91,7 @@ matplot2 <- function(){
 matplot2()
 ```
 
-commento su questo plot
+One can say that all the analysed years behave similarly, and the average concentration of PM10 is visibly lower in the summertime rather than in winter months.
 
 
 # Persistence analysis
