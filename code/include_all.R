@@ -24,7 +24,7 @@ source("code/algorithm/designmatrices.R")
 source("code/algorithm/comp11.R")
 
 # Debug functions
-source("code/debug/check.R")
-source("code/debug/debug_theta.R")
-source("code/debug/debug_alpha.R")
-source("code/debug/debug_sig2eps.R")
+source("code/simulations/debug/check.R")
+source("code/simulations/debug/debug_theta.R")
+source("code/simulations/debug/debug_alpha.R")
+source("code/simulations/debug/debug_sig2eps.R")
