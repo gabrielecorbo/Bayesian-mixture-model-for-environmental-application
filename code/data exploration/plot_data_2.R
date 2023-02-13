@@ -1,6 +1,6 @@
 #reading the file
-pollutant = read.csv('Dati/newTimeSeriesData.csv')
-stat_inf = read.csv('Dati/stationsInfo.csv')
+pollutant = read.csv('code/data/timeSeriesData.csv')
+stat_inf = read.csv('code/data/stationsInfo.csv')
 
 
 N = dim(pollutant)[1] #time instants
