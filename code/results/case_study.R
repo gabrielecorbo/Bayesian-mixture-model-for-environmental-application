@@ -36,7 +36,10 @@ plot(longitude,latitude,pch=19,cex=2,main = "Proposed model", xlab="", ylab="",c
 legend('topleft',legend=rho_m,col=1:4,pch=19)
 map("world",add=T)
 
-station <- 2
+
+
+#diagnostic plot
+station <- 100
 rhosample <- tseriesc.out$rhosample[,station]
 n <- length(rhosample)
 par(mfrow=c(2,2))
@@ -45,8 +48,14 @@ hist(rhosample,main = "Hist. of rho",xlab = "Simulated values")
 plot(1:n,cumsum(rhosample)/1:n,type = "l",main = "Ergodic mean of rho",xlab = "Iteration number",ylab = "")
 acf(rhosample, main='Autocorrelation of rho')
 
+#similarity matrix
 simm <- comp.psm(tseriesc.out$memorygn)
 heatmap(as.matrix(simm))
+
+
+#histogram of number of groups
+hist(tseriesc.out$msample, main="Distribution of the number of cluster",xlab = "Number of cluster")
+
 
 #### STARTING MODEL ####
 
@@ -58,5 +67,5 @@ load("code/results/result_firstmodel.RData")
 
 gnstar_f <- as.numeric(salso(tseriesc.out.first$memorygn, maxNClusters=4, loss=VI(a=0.5), nRuns=50, nCores=2))
 
-plot(longitude,latitude,pch=19,cex=2,main = "Proposed model", xlab="", ylab="",col=gnstar_f)
+plot(longitude,latitude,pch=19,cex=2,main = "First model", xlab="", ylab="",col=gnstar_f)
 map("world",add=T)
