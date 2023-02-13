@@ -10,20 +10,21 @@ library(shiny)
 library(shinythemes)
 library(leaflet)
 
-
+# Algorithms code
 source("code/tseriesclust.R")
 source("code/tseriesclust_first.R")
 
+# Synthetic data
 source("code/simulations/generate_synthetic_data.R")
 source("code/simulations/binderfunction.R")
 
-# 
+# Functions necessary for the algorithm
 source("code/algorithm/scaleandperiods.R")
 source("code/algorithm/designmatrices.R")
 source("code/algorithm/comp11.R")
-source("code/algorithm/check.R")
 
-#
+# Debug functions
+source("code/debug/check.R")
 source("code/debug/debug_theta.R")
 source("code/debug/debug_alpha.R")
 source("code/debug/debug_sig2eps.R")
