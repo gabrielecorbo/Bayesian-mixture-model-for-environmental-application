@@ -62,6 +62,8 @@ function(data,maxiter=1000,burnin=floor(0.1*maxiter),thinning=5,scale=TRUE,
   
   T <- nrow(mydata)                        # Number of periods of the time series
   n <- ncol(mydata)                        # Number of time series present in the data
+  #Construction of the design matrices Z and X of the linear model, where we take into account the seasonality of the data
+  #and the degree of the polynomial trend
   DM <- designmatrices(deg,T,frequency,seasonfreq,seasondelay,mod=FALSE)
   p <- DM$p
   d <- DM$d
@@ -157,7 +159,8 @@ function(data,maxiter=1000,burnin=floor(0.1*maxiter),thinning=5,scale=TRUE,
     
     for(i in 1:n){
       # Only the first entries of gamma[,-i] are compared to determine the cluster configuration
-      gr <- comp11(gamma[1,-i])                         # Function comp11 from the package BNPTSclust (??comp11 for more details)
+      # comp11 is a function that computes the distinct observations and frequencies in a numeric vector.
+      gr <- comp11(gamma[1,-i])                         
       jstar <- gr$jstar                                 # Object that contains the positions of the unique vectors in gamma[,-i]
       gmi <- gamma[,-i]                                 # Matrix with all the elements of gamma, except for the i-th element
       gammastar <- as.matrix(gmi[,jstar])               # Matrix with the unique vectors in gamma(-i)
@@ -236,7 +239,8 @@ function(data,maxiter=1000,burnin=floor(0.1*maxiter),thinning=5,scale=TRUE,
     
     ####### 2.1) LABEL ASSIGNMENT #####
     # Computation of all latent classes of the gamma vectors after the simulation of their posterior distribution.
-    gr <- comp11(gamma[1,])                   # Function comp11 from the package BNPTSclust (??comp11 for more details)
+    # comp11 is a function that computes the distinct observations and frequencies in a numeric vector.
+    gr <- comp11(gamma[1,])                   
     jstar <- gr$jstar
     gammastar <- as.matrix(gamma[,jstar])     # Unique values of the gamma vectors. 
     m <- gr$rstar                             # Total number of latent classes (groups).
