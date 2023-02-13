@@ -122,7 +122,7 @@ simm <- comp.psm(tseriesc.out$memorygn)
 heatmap(as.matrix(simm))
 ```
 
-We can indeed denote the 4 clusters in the left-bottom corner, center and right-up corner.
+We can indeed denote from the dendrogram the formation of the 4 clusters.
 
 # Starting model
 
