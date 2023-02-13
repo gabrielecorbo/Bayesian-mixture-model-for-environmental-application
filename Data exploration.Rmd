@@ -15,6 +15,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Data visualization
+
+The data under consideration are collected from 162 monitoring stations between 2013 and 2019 in Northern Italy (European Environmental Agency) and for each station we have a daily measure of PM10 concentration.
+
 The first analysis we've done was aimed to understand how many stations revealed levels of concentration above the limit threshold. To do so we plotted an histogram of the number of days in which a station was above such threshold in the year 2019:
 
 ```{r, eval=F, echo=T}
@@ -27,17 +30,20 @@ day_above_limit <- function(year){
   n_dang_days = colSums(poll>max_daily_val) 
   
   #hist of the stations divided for the number of dangerous days
-  hist(n_dang_days, breaks = 20, main=paste('Days above the limit per station (',year,')',sep=''), 
-       xlab='n. of days above the limit', ylab='n. of stations', xlim=c(0,125), ylim=c(0,35)) 
+  hist(n_dang_days, breaks = 20, main=paste('Days above the limit 
+      per station (',year,')',sep=''), xlab='n. of days above the limit', 
+       ylab='n. of stations', xlim=c(0,125), ylim=c(0,35)) 
   abline(v=max_dang_days, col='red')
 }
 ```
 
-```{r,out.width="70%", fig.align='center'}
+```{r,out.width="60%", fig.align='center'}
 day_above_limit(2019)
 ```
 
-77 stations out of 162 overcame the limit, which is fixed at 35 days per year. In particular, some of them reached the maximum concentration per day for 80 days. 
+The European Environment Agency (EEA) has set two limit values for PM10: the PM10 daily mean value may not exceed 50 micrograms per cubic metre ($\mu m/ m^3$) more than 35 times in a year and the PM10 annual mean value may not exceed 40 micrograms per cubic metre ($\mu m/ m^3$).
+
+From the previous plot, we can say that 77 stations out of 162 overcame the limit, which is fixed at 35 days per year. In particular, some of them reached the maximum concentration per day for 80 days.
 
 Then we proceeded analizing the PM10 concentration of 10 stations just to have an idea of the level and seasonality of the time series.
 
@@ -47,11 +53,12 @@ matplot1 <- function(){
   set.seed(5)
   rand_st <- sample(1:dim(poll)[2], 10)
   days= seq(as.Date("2019-01-01"), as.Date("2019-12-31"), by="days")
-  matplot(days,poll[,rand_st],type='l',xlab='Time',ylab='PM10 (µg/m^3)', main="Timeseries of 10 stations (2019)")
+  matplot(days,poll[,rand_st],type='l',xlab='Time',ylab='PM10 (µg/m^3)',
+          main="Timeseries of 10 stations (2019)")
 }
 ```
 
-```{r,out.width="70%",, fig.align='center'}
+```{r,out.width="65%",, fig.align='center'}
 matplot1()
 ```
 
@@ -82,12 +89,13 @@ matplot2 <- function(){
   }
   
   days= seq(as.Date("2019-01-01"), as.Date("2019-12-31"), by="days")
-  matplot(days,avg_per_y,type='l',xlab='Time',ylab='PM10 (µg/m^3)', main='Average concentration of PM10 per day',col=1:YEARS,lty=1)
+  matplot(days,avg_per_y,type='l',xlab='Time',ylab='PM10 (µg/m^3)', 
+          main='Average concentration of PM10 per day',col=1:YEARS,lty=1)
   legend('topright',legend=2013:(2013+YEARS-1),col=1:YEARS,lty=1, cex=0.8)
 }
 ```
 
-```{r,out.width="70%",, fig.align='center'}
+```{r,out.width="65%",, fig.align='center'}
 matplot2()
 ```
 
@@ -115,7 +123,7 @@ arima_model <- function(){
 
 and plotted its distribution both on an histogram:
 
-```{r,out.width="70%",, fig.align='center'}
+```{r,out.width="65%",, fig.align='center'}
 arimaModel <- arima_model()
 hist(arimaModel$rho, breaks = 25,main="Distribution of rho's")
 ```
@@ -127,16 +135,16 @@ plot_rho <- function(rho){
   stat_inf <- read.csv('code/data/stationsInfo.csv')
   sigma <- rep(NaN,length(rho))
   plotData <- data.frame(site=stat_inf$site,rho=rho,sigma=sigma,
-                         latitude=stat_inf$latitude,longitude=stat_inf$longitude)
+                      latitude=stat_inf$latitude,longitude=stat_inf$longitude)
   
   #plot on the map
   pal <- colorNumeric(
-    palette = colorRampPalette(c('green', 'yellow', 'red'))(length(plotData$rho)), 
-    domain = plotData$rho)
+    palette = colorRampPalette(c('green', 'yellow', 'red'))
+    (length(plotData$rho)), domain = plotData$rho)
   
   
   map <- leaflet() %>% addProviderTiles(providers$Stamen.TonerLite,
-                                        options = providerTileOptions(noWrap = TRUE)
+                                  options = providerTileOptions(noWrap = TRUE)
   )
   map%>%
     addCircleMarkers(plotData$longitude,plotData$latitude, 
@@ -156,7 +164,7 @@ plot_rho(arimaModel$rho)
 ```
 
 <!-- The RMarkdown cannot knit an html image, so we upload the saved image, the graph is still replicable running the above chunk-->
-![$\boldsymbol{\rho}$'s distribution in Northern Italy](code/data exploration/rho_distr_northitaly.png)
+![$\boldsymbol{\rho}$'s distribution in Northern Italy](code/data exploration/rho_distr_northitaly.png){width=65%}
 
 In particular, it can be noted a mixture distribution of the $\boldsymbol{\rho}$'s and therefore we believe that by using this strategy, we may be able to obtain a reasonable cluster.
 In the last figure you can see the distribution of the  $\rho_i$ for each station considered. The green points are the stations with a low value of $\rho$, so a low persistence, while the red points are the ones with persistent time series. 

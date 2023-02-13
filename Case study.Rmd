@@ -33,12 +33,12 @@ for (i in 1:dim(pollutant)[2]) {
 
 The stations are distributed in all the Northern Italy:
 
-```{r}
+```{r, out.width="70%", fig.align='center'}
 plot(longitude,latitude,pch=19,cex=0.9,xlab='Longitude',ylab='Latitude')
 map("world",add=T)
 ```
 
-Then we run our code on the dataset, using the default hyperparameters $a=1$ ecc..
+Then we run our code on the dataset. The value of \texttt{frequency}, \texttt{seasonfreq} and \texttt{seasondelay} are set to construct the design matrix $\mathbf{Z}$.
 
 ```{r, eval=F, echo=T, results = 'hide', message=FALSE}
 pb=progress_bar$new(total=300)
@@ -47,14 +47,13 @@ tseriesc.out <- tseriesclust(pollutant,maxiter=300,thinning=2,frequency = 365,
                              seasonfreq = 2,seasondelay = 80)
 ```
 
-Since the computational workload is not negligible and the estimated time to run is approximately 90 minutes, we decided to import the saved R.Data. The code is still replicable from the RMarkdown \texttt{Case study.Rmd}.
+Since the computational workload is not negligible and the estimated time to run is approximately 90 minutes, we decided to import the saved R.Data. The code is still replicable from the RMarkdown \texttt{Case study.Rmd}, running the above chunk.
 
 ```{r}
 load("code/results/result_proposedmodel.RData")
 ```
 
-
-We then used a VI loss function to find the best cluster structure using the R package \texttt{salso}. We choose the partition minimizing the posterior of the VI loss function:
+We then used the \texttt{salso} algorithm developed by Dahl which implements a greedy, stochastic search given the number of desired clusters, in our case 4. We choose the partition minimizing the posterior of the VI loss function:
 
 $$
 \hat{\mathbf{c}}^* =  \underset{\hat{\mathbf{c}}}{\operatorname{argmin}} \mathbb{E}\left(L_{V I}(\mathbf{c}, \hat{\mathbf{c}}) \mid \mathcal{D}\right) 
@@ -83,8 +82,9 @@ for (i in 1:4) {
 
 and plotted the cluster obtained on the map:
 
-```{r, fig.align='center'}
-plot(longitude,latitude,pch=19,cex=2,main = "Proposed model", xlab="", ylab="",col=gnstar)
+```{r, out.width="70%", fig.align='center'}
+plot(longitude,latitude,pch=19,cex=2,main = "Proposed model"
+     , ylab="",col=gnstar)
 legend('topleft',legend=rho_m,col=1:4,pch=19)
 map("world",add=T)
 ```
@@ -95,25 +95,29 @@ The Milan area has the highest persistence cluster, and the cities of the Padan 
 
 In fact, a search of the literature revealed studies analysing PM10 concentration that confirmed that the persistence is often higher in the proximity of urban areas and dry zones while it is lower in greener areas and more breezy regions.
 
-We confronted the obtained values of $\rho$ in the clusters with the distribution of the $\rho$ estimated with the function \texttt{arima}.
+We've then decided to compare the convergence of the ergodic mean of $\rho$ of two stations belonging to different clusters.
 
-
-
-and plot of the ergodic mean of the station x:
-
-```{r, out.width="70%", fig.align='center'}
-station <- 2
+```{r, fig.dim = c(3, 5), fig.align='center', results = 'hide'}
+x <- 30:300                      #x is defined just for visual purposes
+x <- x[which(x %% 2 == 0)]
+x <- x[-1]                              
+par(mfrow=c(2,1))
+station <- 112
 rhosample <- tseriesc.out$rhosample[,station]
-n <- length(rhosample)
-par(mfrow=c(2,2))
-plot(rhosample,type = "l",main = "Trace plot of rho",
-     xlab = "Iteration number",ylab = "Simulated value")
-hist(rhosample,main = "Hist. of rho",xlab = "Simulated values")
-plot(1:n,cumsum(rhosample)/1:n,type = "l",
-     main = "Ergodic mean of rho",xlab = "Iteration number",ylab = "")
+plot(x,cumsum(rhosample)/1:d,type = "l",main = "Ergodic mean of rho "
+     ,xlab = "Iteration number",ylab = "",ylim=c(0.55,0.85))
 acf(rhosample, main='Autocorrelation of rho')
+gnstar[112]     #2nd cluster, "red" one
+par(mfrow=c(2,1))
+station <- 102
+rhosample <- tseriesc.out$rhosample[,station]
+plot(x,cumsum(rhosample)/1:d,type = "l",main = "Ergodic mean of rho"
+     ,xlab = "Iteration number",ylab = "",ylim=c(0.55,0.85))
+acf(rhosample, main='Autocorrelation of rho')
+gnstar[102]     #4th cluster, "blue" one 
 ```
-we see that concerges to ... as expected.
+
+We can note how indeed the two ergodic mean converge to two different values, with the Milan area station persistence higher than the one in Genoa zone.
 
 Finally, we plotted the similarity matrix of the cluster obtained:
 
@@ -124,6 +128,17 @@ heatmap(as.matrix(simm))
 
 We can indeed denote from the dendrogram the formation of the 4 clusters.
 
+The following figure shows the distribution of the number of clusters obtained by the algorithm after 300 iterations.
+
+```{r, out.width="70%", fig.align='center'}
+hist(tseriesc.out$msample, main="Distribution of the number of cluster"
+     ,xlab = "Number of cluster")
+```
+
+We can see that even if the number of stations is high (162), the minimum number of clusters obtained by the algorithm is still high (12). Deeper analysis and tuning of the hyper-parameters, number of iterations or the introduction of an acceleration step (in case we assume different priors) could be useful to have a histogram of the number of clusters more centered in a small value than the one obtained.
+
+
+
 # Starting model
 
 Using the same dataset its reproducible also the clustering using the starting model.
@@ -133,7 +148,7 @@ tseriesc.out <- tseriesclust_first(pollutant,maxiter=300,
                   thinning=2,frequency = 365, seasonfreq = 2,seasondelay = 80)
 ```
 
-Same as before we load the results, but all the code is reproducible in the file \texttt{Case study.Rmd}.
+Same as before we load the results, but all the code is reproducible in the file \texttt{Case study.Rmd}, running the above chunk.
 
 ```{r}
 load("code/results/result_firstmodel.RData")
@@ -144,8 +159,8 @@ gnstar_f <- as.numeric(salso(tseriesc.out.first$memorygn, maxNClusters=4,
                              loss=VI(a=0.5), nRuns=50, nCores=2))
 ```
 
-```{r, fig.align='center'}
-plot(longitude,latitude,pch=19,cex=2,main = "Proposed model", xlab="", ylab="",col=gnstar_f)
+```{r, out.width="70%", fig.align='center'}
+plot(longitude,latitude,pch=19,cex=2,main = "First model", xlab="", ylab="",col=gnstar_f)
 map("world",add=T)
 ```
 

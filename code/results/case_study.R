@@ -39,14 +39,13 @@ map("world",add=T)
 
 
 #diagnostic plot
-n <- length(rhosample)
-x <- 30:300
+x <- 30:300                      #x is defined just for visual purposes
 x <- x[which(x %% 2 == 0)]
-x <- x[-1]
+x <- x[-1]                              
 par(mfrow=c(2,1))
 station <- 112
 rhosample <- tseriesc.out$rhosample[,station]
-plot(x,cumsum(rhosample)/1:n,type = "l",main = "Ergodic mean of rho ",xlab = "Iteration number",ylab = "",ylim=c(0.55,0.85))
+plot(x,cumsum(rhosample)/1:d,type = "l",main = "Ergodic mean of rho ",xlab = "Iteration number",ylab = "",ylim=c(0.55,0.85))
 acf(rhosample, main='Autocorrelation of rho')
 gnstar[2]
 par(mfrow=c(2,1))
