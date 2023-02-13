@@ -44,6 +44,8 @@ tseriesclust <-
     
     T <- nrow(mydata)                        # Number of periods of the time series
     n <- ncol(mydata)                        # Number of time series present in the data
+    #Construction of the design matrix Z of the linear model, where we take into account the seasonality of the data
+    #and the degree of the polynomial trend
     DM <- designmatrices(deg,T,frequency,seasonfreq,seasondelay)      # Construction of the design matrix
     p <- DM$p
     d <- DM$d
@@ -140,7 +142,8 @@ tseriesclust <-
       
       for(i in 1:n){
         # The entries of gamma[,-i] are compared to determine the cluster configuration
-        gr <- comp11(gamma[1,-i])                     # Function comp11 from the package BNPTSclust (??comp11 for more details)
+        # comp11 is a function that computes the distinct observations and frequencies in a numeric vector.
+        gr <- comp11(gamma[1,-i])                    
         jstar <- gr$jstar                                 # Object that contains the positions of the unique vectors in gamma[,-i]
         mi <- gr$rstar                                    # Number of unique vectors in gamma(-i) (Number of groups)
         h <- mi + naux
@@ -218,7 +221,8 @@ tseriesclust <-
       
       ####### 4) LABEL ASSIGNMENT #####
       # Computation of all latent classes of the gamma vectors after the simulation of their posterior distribution.
-      gr <- comp11(gamma[1,],iter,maxiter)  # Function comp11 from the package BNPTSclust (??comp11 for more details).                 
+      # comp11 is a function that computes the distinct observations and frequencies in a numeric vector.
+      gr <- comp11(gamma[1,],iter,maxiter)                   
       jstar <- gr$jstar
       gammastar <- as.matrix(gamma[,jstar])     # Unique values of the gamma vectors. 
       m <- gr$rstar                             # Total number of latent classes (groups).

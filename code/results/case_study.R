@@ -21,6 +21,10 @@ pb=progress_bar$new(total=300)
 invisible(pb$tick(0))
 # estimated 90 minutes running time
 #tseriesc.out <- tseriesclust(pollutant,maxiter=300,thinning=2,frequency = 365,seasonfreq = 2,seasondelay = 80)
+#frequency = 365, seasonfreq = 2,seasondelay = 80 
+#because we have daily data, two season (autumn/winter and spring/summer) and the spring starts the 80th day of the year
+
+
 
 load("code/results/result_proposedmodel.RData")
 
@@ -69,8 +73,10 @@ hist(tseriesc.out$msample, main="Distribution of the number of cluster",xlab = "
 #### STARTING MODEL ####
 
 # estimated 90 minutes running time
-tseriesc.out.first <- tseriesclust_first(pollutant,maxiter=300,
-                                   thinning=2,frequency = 365, seasonfreq = 2,seasondelay = 80)
+#tseriesc.out.first <- tseriesclust_first(pollutant,maxiter=300,thinning=2,frequency = 365, seasonfreq = 2,seasondelay = 80)
+
+#frequency = 365, seasonfreq = 2,seasondelay = 80 
+#because we have daily data, two season (autumn/winter and spring/summer) and the spring starts the 80th day of the year
 
 load("code/results/result_firstmodel.RData")
 
