@@ -44,7 +44,7 @@ The folder [code](https://github.com/gabrielecorbo/Bayesian-mixture-model-for-en
 - The folder [results](https://github.com/gabrielecorbo/Bayesian-mixture-model-for-environmental-application/tree/main/code/results) containing the RData of the results and a file .R with the same script of the corresponding Rmarkdown
 - The folder [simulations](https://github.com/gabrielecorbo/Bayesian-mixture-model-for-environmental-application/tree/main/code/simulations) containing the file to generate the synthetic data, a folder with the codes to check the distribution of the full conditionals and a file .R with the same script of the corresponding Rmarkdown 
 - The folder [data exploration](https://github.com/gabrielecorbo/Bayesian-mixture-model-for-environmental-application/tree/main/code/data%20exploration) containing two file .R with the same script of the corresponding Rmarkdown
-- The folder [auxiliary_functions](https://github.com/gabrielecorbo/Bayesian-mixture-model-for-environmental-application/tree/main/code/algorithm) containing the auxiliary functions for the models.
+- The folder [auxiliary_functions](https://github.com/gabrielecorbo/Bayesian-mixture-model-for-environmental-application/tree/main/code/auxiliary_functions) containing the auxiliary functions for the models.
 - The folder [data](https://github.com/gabrielecorbo/Bayesian-mixture-model-for-environmental-application/tree/main/code/data) containing the datasets containing the timeseries and the stations' information.
 
 All the code should be run setting the main folder of the repository as working directory.
