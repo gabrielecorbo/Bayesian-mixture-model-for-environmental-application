@@ -14,7 +14,7 @@ Team members: P. Bogani, P. Botta, S. Caresana, R. Carrara, G. Corbo, L. Mainini
 -->
 ## Description
 
-The World Health Organization considers air pollution a major global environmental risk to human health. We are indeed simultaneously exposed to different air pollutants. A better understanding of how they behave in space and time is crucial. Our objective is to develop Bayesian-mixture-model-based clustering algorithms for environmental applications. Specifically, we focused our attention on PM10.
+The World Health Organization considers air pollution a major global environmental risk to human health. Only in the EU in 2020, a total of 238,000 premature deaths were linked to exposure to particulate matter. Our objective is to develop Bayesian-mixture-model-based clustering algorithms for environmental applications. Specifically, we focused our attention on PM10.
 <!---
 The model assumes a linear model
 
