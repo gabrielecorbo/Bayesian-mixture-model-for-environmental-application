@@ -166,6 +166,7 @@ plot_rho(arimaModel$rho)
 <!-- The RMarkdown cannot knit an html image, so we upload the saved image, the graph is still replicable running the above chunk-->
 ![$\boldsymbol{\rho}$'s distribution in Northern Italy](code/data exploration/rho_distr_northitaly.png){width=65%}
 
-In particular, it can be noted a mixture distribution of the $\boldsymbol{\rho}$'s and therefore we believe that by using this strategy, we may be able to obtain a reasonable cluster.
+Given the distribution of the $\boldsymbol{\rho}$'s shown in the histogram, we may be able to obtain a reasonable clustering.
+
 In the last figure you can see the distribution of the  $\rho_i$ for each station considered. The green points are the stations with a low value of $\rho$, so a low persistence, while the red points are the ones with persistent time series. 
 In particular, we can see that in the Po valley the persistence is high while in the zones near the sea or in a more mountaineer city the value of the persistence is smaller.

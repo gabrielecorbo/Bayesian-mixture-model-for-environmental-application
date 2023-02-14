@@ -1,4 +1,4 @@
-source("code/algorithm/designmatrices.R")
+source("code/auxiliary_functions/designmatrices.R")
 
 
 # Given some synthetic data n_samples from the posterior of alpha are generated

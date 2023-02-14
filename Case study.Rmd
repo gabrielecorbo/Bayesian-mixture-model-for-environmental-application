@@ -84,18 +84,18 @@ and plotted the cluster obtained on the map:
 
 ```{r, out.width="70%", fig.align='center'}
 plot(longitude,latitude,pch=19,cex=2,main = "Proposed model"
-     , ylab="",col=gnstar)
+     , ylab="Latitude", xlab="Longitude",col=gnstar)
 legend('topleft',legend=rho_m,col=1:4,pch=19)
 map("world",add=T)
 ```
 
 We can see that the four clusters obtained can be divided into 4 distinct natural regions.
 
-The Milan area has the highest persistence cluster, and the cities of the Padan Pianury are home to another significant cluster.  The other two clusters, with less persistence, are in the Genoa or marine cities zone and in the stations of the Alps.
+The Milan area has the highest persistence cluster, and the cities of the Po Valley are home to another significant cluster.  The other two clusters, with less persistence, are in the Genoa or marine cities zone and in the stations of the Alps.
 
-In fact, a search of the literature revealed studies analysing PM10 concentration that confirmed that the persistence is often higher in the proximity of urban areas and dry zones while it is lower in greener areas and more breezy regions.
+In fact, a search of the literature revealed studies analyzing PM10 concentration that confirmed that the persistence is often higher in the proximity of urban areas and dry zones while it is lower in greener areas and more breezy regions.
 
-We've then decided to compare the convergence of the ergodic mean of $\rho$ of two stations belonging to different clusters.
+We've then decided to compare the convergence of the Ergodic mean of $\rho$ of two stations belonging to different clusters.
 
 ```{r, fig.dim = c(3, 5), fig.align='center', results = 'hide'}
 x <- 30:300                      #x is defined just for visual purposes
@@ -144,7 +144,7 @@ We can see that even if the number of stations is high (162), the minimum number
 Using the same dataset its reproducible also the clustering using the starting model.
 
 ```{r, eval=F, echo=T, results = 'hide', message=FALSE}
-tseriesc.out <- tseriesclust_first(pollutant,maxiter=300,
+tseriesc.out.first <- tseriesclust_first(pollutant,maxiter=300,
                   thinning=2,frequency = 365, seasonfreq = 2,seasondelay = 80)
 ```
 
@@ -160,7 +160,8 @@ gnstar_f <- as.numeric(salso(tseriesc.out.first$memorygn, maxNClusters=4,
 ```
 
 ```{r, out.width="70%", fig.align='center'}
-plot(longitude,latitude,pch=19,cex=2,main = "First model", xlab="", ylab="",col=gnstar_f)
+plot(longitude,latitude,pch=19,cex=2,main = "First model", 
+     ylab="Latitude",xlab="Longitude",col=gnstar_f)
 map("world",add=T)
 ```
 

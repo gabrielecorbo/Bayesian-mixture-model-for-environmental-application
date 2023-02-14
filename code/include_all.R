@@ -10,17 +10,17 @@ library(shiny)
 library(shinythemes)
 library(leaflet)
 
-# Algorithms code
+# auxiliary_functionss code
 source("code/tseriesclust.R")
 source("code/tseriesclust_first.R")
 
 # Synthetic data generator
 source("code/simulations/generate_synthetic_data.R")
 
-# Functions necessary for the algorithm
-source("code/algorithm/scaleandperiods.R")
-source("code/algorithm/designmatrices.R")
-source("code/algorithm/comp11.R")
+# Auxiliary functions necessary for the algorithm
+source("code/auxiliary_functions/scaleandperiods.R")
+source("code/auxiliary_functions/designmatrices.R")
+source("code/auxiliary_functions/comp11.R")
 
 # Binder loss function
 source("code/simulations/binderfunction.R")
